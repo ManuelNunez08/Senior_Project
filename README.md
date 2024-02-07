@@ -8,5 +8,5 @@ Provides labeled grayscale faces
 audio data: 
 
 # Architecture
-### mm_model
+### mm_model.ipynb
 Notebook used for performing EDA, preprocesseing, model training, evaluation, and saving the model 
