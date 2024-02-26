@@ -5,7 +5,8 @@
 face data: https://www.kaggle.com/datasets/sudarshanvaidya/random-images-for-face-emotion-recognition/data
 Provides labeled grayscale faces
 
-audio data: 
+audio data:  https://www.kaggle.com/code/pahirathannithilan/speech-emotion-recognition 
+provides labeled audio files
 
 # Architecture
 ### mm_model.ipynb
