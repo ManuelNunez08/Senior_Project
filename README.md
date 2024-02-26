@@ -5,7 +5,7 @@
 face data: https://www.kaggle.com/datasets/sudarshanvaidya/random-images-for-face-emotion-recognition/data
 Provides labeled grayscale faces
 
-audio data:  https://www.kaggle.com/code/pahirathannithilan/speech-emotion-recognition 
+audio data:  https://www.kaggle.com/datasets/uwrfkaggler/ravdess-emotional-speech-audio
 provides labeled audio files
 
 # Architecture
