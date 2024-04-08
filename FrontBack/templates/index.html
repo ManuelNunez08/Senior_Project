@@ -1,0 +1,21 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Mood Meter</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="header">
+    <h1>The Mood Meter</h1>
+  </div>
+  <div class="main container">
+    <p>Our state of the Art multimodal model is able to receive a video of you talking and decipher the breakdown of emotions that you were displaying based on your face, body language, and sound.</p>
+    <p>To Try it, simply click on the camera icon and record a video.</p>
+    <button id="cameraButton" class="button">Record Video</button>
+  </div>
+  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+/* static/style.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #EAE7F8; /* A light purple background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header {
+    background: #5D3FD3; /* A rich purple header */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .main {
+    background: #fff;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid #5D3FD3; /* Purple border for the content area */
+  }
+  
+  .button {
+    background-color: #7D5BD3; /* A soft purple button */
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #5D3FD3; /* Darker purple on hover */
+  }
+  
+  /* Adjustments for the camera and audio icons */
+  .icon {
+    fill: #5D3FD3; /* Purple color for the SVG icons */
+    width: 50px; /* Or any size that fits your design */
+    height: auto;
+  }
+  
+  /* Additional styles for other elements as needed... */
+  
