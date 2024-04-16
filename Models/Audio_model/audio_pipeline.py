@@ -1,7 +1,8 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import librosa
 
 class AudioCNN(nn.Module):
     def __init__(self):
@@ -42,10 +43,20 @@ class AudioCNN(nn.Module):
 model = AudioCNN()
 model.load_state_dict(torch.load('model_path.pth'))
 
-with torch.no_grad():
-    images = images.to(device)
-    labels = labels.to(device)
-    outputs = model(images)
-    # max returns (value ,index)
-    _, predicted = torch.max(outputs, 1)
-    labels = torch.argmax(labels, dim=1)
+def full_pipeline(file_path):
+    # read in the data from the file its in
+    y, sr = librosa.load(file_path)
+
+    # preprocess this read in data
+    ms = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
+    ms = librosa.amplitude_to_db(ms, ref=np.max)
+
+    # obtain model output and record it
+    with torch.no_grad():
+        outputs = model(ms)
+        # max returns (value ,index)
+        _, predicted = torch.max(outputs, 1)
+
+    return predicted
+
+
