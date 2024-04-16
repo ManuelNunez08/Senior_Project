@@ -89,6 +89,7 @@ for file_name in os.listdir(path_to_images):
     visual_predictions.append(predicted_class)
 
 
+
 # AUDIO MODEL
 class AudioCNN(nn.Module):
     def __init__(self):
@@ -152,4 +153,6 @@ audio_path = 'split_input/audio/audio.wav'
 audio_results = full_pipeline(audio_path)
 print(audio_results)
 
+# CONSTRUCT PROPER JSON OBJECT TO SEND TO BACKEND
 
+# CALL BACKEND WITH API TO DISPLAY ON FRONTEND

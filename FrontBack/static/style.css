@@ -43,5 +43,23 @@ body {
     height: auto;
   }
   
+  #videoPreview {
+    width: 100%; /* Adjust size as needed */
+    height: auto;
+    border: 1px solid #5D3FD3; /* Optional border */
+  }
+
+  #recordingProgress {
+    height: 20px; /* Set the height of the progress bar */
+    background-color: #D3D3D3;
+    color: #5D3FD3; /* Color of the progress */
+  }
+  progress[value]::-webkit-progress-value {
+    background-color: #5D3FD3;
+  }
+  progress[value]::-webkit-progress-bar {
+    background-color: #EAE7F8;
+  }
+  
   /* Additional styles for other elements as needed... */
   
