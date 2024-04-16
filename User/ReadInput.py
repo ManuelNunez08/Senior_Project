@@ -2,6 +2,12 @@ import cv2
 import os
 from moviepy.editor import VideoFileClip
 
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import librosa
+
 # to load audio model 
 import torch
 
@@ -66,10 +72,10 @@ video_path = 'input/input.mov'
 output_dir = 'split_input'
 extract_faces_and_audio(video_path, output_dir)
 
-# We now load the visual model 
+# We now load the visual model
 visual_model = tf.keras.models.load_model('models/firstmodel.keras')
 
-# the visual model evaluates each screenshot below 
+# the visual model evaluates each screenshot below
 visual_predictions = []
 path_to_images = 'split_input/visual'
 for file_name in os.listdir(path_to_images):
@@ -84,3 +90,69 @@ for file_name in os.listdir(path_to_images):
 
 
 
+# AUDIO MODEL
+class AudioCNN(nn.Module):
+    def __init__(self):
+        super(AudioCNN, self).__init__()
+
+        # Convolutional layers
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=16, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(in_channels=16, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.conv3 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
+
+        # Pooling layers
+        self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
+        self.adaptive_pool = nn.AdaptiveAvgPool2d((5, 5))
+
+        # Fully connected layers
+        self.fc1 = nn.Linear(64 * 5 * 5, 128)  # Adjust the input size accordingly
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 8)
+
+    def forward(self, spec_data):
+        x = self.pool(F.relu(self.conv1(spec_data)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = self.pool(F.relu(self.conv3(x)))
+
+        x = self.adaptive_pool(x)
+
+        # Flatten the output for the dense layers
+        x = x.view(-1, 64 * 5 * 5)
+
+        # Pass the flattened output through dense layers
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+
+        return x
+
+model = AudioCNN()
+model.load_state_dict(torch.load('../Models/Audio_model/audio_model_path.pth'))
+
+def full_pipeline(file_path):
+    # read in the data from the file its in
+    y, sr = librosa.load(file_path)
+
+    # preprocess this read in data
+    ms = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
+    y = librosa.amplitude_to_db(ms, ref=np.max)
+    y = torch.tensor(y)
+    y = y.unsqueeze(0)
+
+# obtain model output and record it
+    with torch.no_grad():
+        outputs = model(y)
+        # max returns (value ,index)
+        _, predicted = torch.max(outputs, 1)
+
+    return outputs
+
+
+# We now load the audio model
+audio_path = 'split_input/audio/audio.wav'
+audio_results = full_pipeline(audio_path)
+print(audio_results)
+
+# CONSTRUCT PROPER JSON OBJECT TO SEND TO BACKEND
+
+# CALL BACKEND WITH API TO DISPLAY ON FRONTEND
