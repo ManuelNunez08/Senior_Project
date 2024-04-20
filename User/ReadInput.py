@@ -24,6 +24,20 @@ import glob
 import json
 
 
+def process_image(image_path):
+    # Load the image with target size of 48x48
+    img = image.load_img(image_path, target_size=(48, 48), color_mode='grayscale')  # Use color_mode='grayscale' if your model expects grayscale images
+    
+    # Convert the image to a numpy array
+    img_array = image.img_to_array(img)
+    
+    # Normalize the image array
+    img_array /= 255.0
+    
+    # Add a batch dimension
+    img_array = np.expand_dims(img_array, axis=0)
+    
+    return img_array
 
 
 def extract_faces_and_audio(video_path, output_dir):
@@ -84,7 +98,7 @@ script_dir = os.path.dirname(__file__)
 
 # visual_model_path = r'C:\Users\Andres\Documents\GitHub\Senior_Project\User\models\firstmodel.keras'
 
-visual_model_path = os.path.join(script_dir, 'models/firstmodel.keras')
+visual_model_path = os.path.join(script_dir, 'models/thirdmodel.keras')
 
 # We now load the visual model
 visual_model = tf.keras.models.load_model(visual_model_path)
@@ -99,11 +113,9 @@ num_images = 0
 for file_name in os.listdir(path_to_images):
     if file_name.endswith('.jpg'):  # Make sure to process .jpg files only
         img_path = os.path.join(path_to_images, file_name)
-        img = image.load_img(img_path, target_size=(48, 48))
-        img_array = image.img_to_array(img)
-        img_array_expanded_dims = np.expand_dims(img_array, axis=0)
-        img_preprocessed = preprocess_input(img_array_expanded_dims)
+        img_preprocessed = process_image(img_path)
         prediction = visual_model.predict(img_preprocessed)
+        print(prediction)
         # sum predictions 
         if sum_predictions is None:
             sum_predictions = prediction
@@ -182,6 +194,23 @@ def full_pipeline(file_path):
         _, predicted = torch.max(outputs, 1)
     return outputs
 
+
+def normalize_list(values):
+    # Convert to absolute values
+    abs_values = [abs(x) for x in values]
+    
+    # Sum the absolute values
+    total = sum(abs_values)
+    
+    # Avoid division by zero if total is 0
+    if total == 0:
+        return [0] * len(values)
+    
+    # Normalize each value to sum to 1
+    normalized_values = [x / total for x in abs_values]
+    
+    return normalized_values
+
 # We now load the audio model
 
 
@@ -200,32 +229,38 @@ audio_predictions = audio_predictions.tolist()[0]
 results_dict = {}
 
 
+
 print(audio_predictions)
+
+audio_predictions = normalize_list(audio_predictions)
+
+print(audio_predictions)
+
 print(visual_predictions)
 
 
 
 # assign emotions to corresponding list index for both models 
 audio_dict = {'Angry': audio_predictions[0], 'Disgust': audio_predictions[2], 
-            'Fearful':audio_predictions[3], 'Happy': audio_predictions[4], 'Neutral':audio_predictions[5], 
+            'Fear':audio_predictions[3], 'Happy': audio_predictions[4], 'Neutral':audio_predictions[5], 
             'Sad':audio_predictions[6], 'Surprise': audio_predictions[7]}
 
-visual_dict = {'Angry': visual_predictions[0], 'Disgust': visual_predictions[2], 
-            'Fearful':visual_predictions[3], 'Happy': visual_predictions[4], 'Neutral':visual_predictions[5], 
-            'Sad':visual_predictions[6], 'Surprise': visual_predictions[7]}
+visual_dict = {'Angry': visual_predictions[0], 'Disgust': visual_predictions[1], 
+            'Fear':visual_predictions[2], 'Happy': visual_predictions[3], 'Sad':visual_predictions[4], 
+            'Surprise':visual_predictions[5], 'Neutral': visual_predictions[6]}
 
 # Find complex emotions within each complex 
 visual_complex_emotions = {
                         'Dissaproval':(visual_dict['Sad'] + visual_dict['Surprise'])/2,
                         'Remorse': (visual_dict['Sad'] + visual_dict['Disgust'])/2,
-                        'Contempt': (visual_dict['Disgust'] + visual_dict['Anger'])/2,
+                        'Contempt': (visual_dict['Disgust'] + visual_dict['Angry'])/2,
                         'Awe': (visual_dict['Fear'] + visual_dict['Surprise'])/2,
                         'Excitement': (visual_dict['Happy'] + visual_dict['Surprise'])/2
                         }
 audio_complex_emotions = {
                         'Dissaproval':(audio_dict['Sad'] + audio_dict['Surprise'])/2,
                         'Remorse': (audio_dict['Sad'] + audio_dict['Disgust'])/2,
-                        'Contempt': (audio_dict['Disgust'] + audio_dict['Anger'])/2,
+                        'Contempt': (audio_dict['Disgust'] + audio_dict['Angry'])/2,
                         'Awe': (audio_dict['Fear'] + audio_dict['Surprise'])/2,
                         'Excitement': (audio_dict['Happy'] + audio_dict['Surprise'])/2
                         }
@@ -235,7 +270,7 @@ audio_complex_emotions = {
 complex_emotions_combined_contexts = {
                         'Dissaproval': max((audio_dict['Sad'] + visual_dict['Surprise'])/2,  (audio_dict['Surprise'] + visual_dict['Sad'])/2),
                         'Remorse': max((audio_dict['Sad'] + visual_dict['Disgust'])/2,  (audio_dict['Disgust'] + visual_dict['Sad'])/2),
-                        'Contempt': max((audio_dict['Disgust'] + visual_dict['Anger'])/2,  (audio_dict['Anger'] + visual_dict['Disgust'])/2),
+                        'Contempt': max((audio_dict['Disgust'] + visual_dict['Angry'])/2,  (audio_dict['Angry'] + visual_dict['Disgust'])/2),
                         'Awe': max((audio_dict['Fear'] + visual_dict['Surprise'])/2,  (audio_dict['Surprise'] + visual_dict['Fear'])/2),
                         'Excitement': max((audio_dict['Happy'] + visual_dict['Surprise'])/2,  (audio_dict['Surprise'] + visual_dict['Happy'])/2)
                         }
