@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const cameraButton = document.getElementById('cameraButton');
+  const retakeButton = document.getElementById('retakeButton');
   const sendButton = document.getElementById('sendButton');
   const videoPreview = document.getElementById('videoPreview');
   const videoPlayback = document.getElementById('videoPlayback');
@@ -39,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
       videoPreview.style.display = 'none'; // Hide the preview video
       
       sendButton.style.display = 'block'; // Show send button
+      retakeButton.style.display = 'block'; // Show the retake video button
+      cameraButton.style.display = 'none';
       sendButton.onclick = function() {
         const formData = new FormData();
         formData.append('video', videoBlob, 'video.mp4');
@@ -60,6 +63,17 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
           console.error(error);
         });
+      };
+
+      retakeButton.onclick = function(){
+        URL.revokeObjectURL(videoUrl); // Clean up the URL object
+        videoPlayback.style.display = 'none';
+        videoPreview.style.display = 'block';
+        sendButton.style.display = 'none'; // Hide send button after sending
+        retakeButton.style.display = 'none'; // Hide retake button
+        cameraButton.style.display = 'inline-block'; // Show the take video button
+        videoPreview.srcObject = null;
+        initCamera(); // Reinitialize camera for another recording if needed
       };
 
       stream.getTracks().forEach(track => track.stop());
