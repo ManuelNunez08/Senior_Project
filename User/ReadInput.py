@@ -180,34 +180,35 @@ audio_predictions = audio_predictions.tolist()
 
 
 
-
 # CONSTRUCT PROPER JSON OBJECT TO SEND TO BACKEND
 
 # Contempt and Calmness are not considered as they arent present in both data sets 
 
+audio_predictions = [0.15, 0.2, 0.35, 0.1, 0.2, 0.05, 0.05]
+visual_predictions = [0.25, 0.3, 0.1, 0.1, 0.05, 0.15, 0.05]
 results_dict = {}
 
 # assign emotions to corresponding list index for both models 
-audio_dict = {'Angry': audio_predictions[0], 'Disgust': audio_predictions[2], 
-            'Fearful':audio_predictions[3], 'Happy': audio_predictions[4], 'Neutral':audio_predictions[5], 
-            'Sad':audio_predictions[6], 'Surprise': audio_predictions[7]}
+audio_dict = {'Angry': audio_predictions[0], 'Disgust': audio_predictions[1], 
+            'Fear':audio_predictions[2], 'Happy': audio_predictions[3], 'Neutral':audio_predictions[4], 
+            'Sad':audio_predictions[5], 'Surprise': audio_predictions[6]}
 
-visual_dict = {'Angry': visual_predictions[0], 'Disgust': visual_predictions[2], 
-            'Fearful':visual_predictions[3], 'Happy': visual_predictions[4], 'Neutral':visual_predictions[5], 
-            'Sad':visual_predictions[6], 'Surprise': visual_predictions[7]}
+visual_dict = {'Angry': visual_predictions[0], 'Disgust': visual_predictions[1], 
+            'Fear':visual_predictions[2], 'Happy': visual_predictions[3], 'Neutral':visual_predictions[4], 
+            'Sad':visual_predictions[5], 'Surprise': visual_predictions[6]}
 
 # Find complex emotions within each complex 
 visual_complex_emotions = {
                         'Dissaproval':(visual_dict['Sad'] + visual_dict['Surprise'])/2,
                         'Remorse': (visual_dict['Sad'] + visual_dict['Disgust'])/2,
-                        'Contempt': (visual_dict['Disgust'] + visual_dict['Anger'])/2,
+                        'Contempt': (visual_dict['Disgust'] + visual_dict['Angry'])/2,
                         'Awe': (visual_dict['Fear'] + visual_dict['Surprise'])/2,
                         'Excitement': (visual_dict['Happy'] + visual_dict['Surprise'])/2
                         }
 audio_complex_emotions = {
                         'Dissaproval':(audio_dict['Sad'] + audio_dict['Surprise'])/2,
                         'Remorse': (audio_dict['Sad'] + audio_dict['Disgust'])/2,
-                        'Contempt': (audio_dict['Disgust'] + audio_dict['Anger'])/2,
+                        'Contempt': (audio_dict['Disgust'] + audio_dict['Angry'])/2,
                         'Awe': (audio_dict['Fear'] + audio_dict['Surprise'])/2,
                         'Excitement': (audio_dict['Happy'] + audio_dict['Surprise'])/2
                         }
@@ -217,7 +218,7 @@ audio_complex_emotions = {
 complex_emotions_combined_contexts = {
                         'Dissaproval': max((audio_dict['Sad'] + visual_dict['Surprise'])/2,  (audio_dict['Surprise'] + visual_dict['Sad'])/2),
                         'Remorse': max((audio_dict['Sad'] + visual_dict['Disgust'])/2,  (audio_dict['Disgust'] + visual_dict['Sad'])/2),
-                        'Contempt': max((audio_dict['Disgust'] + visual_dict['Anger'])/2,  (audio_dict['Anger'] + visual_dict['Disgust'])/2),
+                        'Contempt': max((audio_dict['Disgust'] + visual_dict['Angry'])/2,  (audio_dict['Angry'] + visual_dict['Disgust'])/2),
                         'Awe': max((audio_dict['Fear'] + visual_dict['Surprise'])/2,  (audio_dict['Surprise'] + visual_dict['Fear'])/2),
                         'Excitement': max((audio_dict['Happy'] + visual_dict['Surprise'])/2,  (audio_dict['Surprise'] + visual_dict['Happy'])/2)
                         }

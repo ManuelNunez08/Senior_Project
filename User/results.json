@@ -1,0 +1,41 @@
+{
+    "Visual_Predictions": {
+        "Angry": 0.25,
+        "Disgust": 0.3,
+        "Fear": 0.1,
+        "Happy": 0.1,
+        "Neutral": 0.05,
+        "Sad": 0.15,
+        "Surprise": 0.05
+    },
+    "Audio_Predictions": {
+        "Angry": 0.15,
+        "Disgust": 0.2,
+        "Fear": 0.35,
+        "Happy": 0.1,
+        "Neutral": 0.2,
+        "Sad": 0.05,
+        "Surprise": 0.05
+    },
+    "Visual_Complex": {
+        "Dissaproval": 0.1,
+        "Remorse": 0.22499999999999998,
+        "Contempt": 0.275,
+        "Awe": 0.07500000000000001,
+        "Excitement": 0.07500000000000001
+    },
+    "Audio_Complex": {
+        "Dissaproval": 0.05,
+        "Remorse": 0.125,
+        "Contempt": 0.175,
+        "Awe": 0.19999999999999998,
+        "Excitement": 0.07500000000000001
+    },
+    "Combined_Complex": {
+        "Dissaproval": 0.1,
+        "Remorse": 0.175,
+        "Contempt": 0.225,
+        "Awe": 0.19999999999999998,
+        "Excitement": 0.07500000000000001
+    }
+}
