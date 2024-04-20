@@ -9,6 +9,11 @@ import json
 app = Flask(__name__)
 VIDEO_FOLDER = 'saved-videos'
 
+# Get the directory where the script is located
+script_dir = os.path.dirname(__file__)
+
+RESULTS_PATH = os.path.join(script_dir, '../User/results.json')
+
 
 
 # Create a directory for saved-videos if it doesn't exist
@@ -39,7 +44,7 @@ def upload_video():
 @app.route('/visualize')
 def visualize():
     # Open and read the JSON file
-    with open('/Users/manuelnunezmartinez/Documents/UF/Spring24/Senior Project/Senior_Project/User/results.json') as file:
+    with open(RESULTS_PATH) as file:
         data_dict = json.load(file)
 
     plots_div = []
