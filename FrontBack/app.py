@@ -28,8 +28,20 @@ def upload_video():
     video.save(os.path.join(VIDEO_FOLDER, filename))
     
     # Process your video here with your ML model
+    # WE WILL RUN THE MODELS
+    
     
     return jsonify({'message': 'Video received and saved'}), 200
+
+
+
+# OTHER API REQUEST
+# WILL BE CALLED WHEN MODELS ARE DONE
+# IT WILL RECEIVE A JSON OF THE RESULTS
+
+# UTILIZE SOCKETS
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

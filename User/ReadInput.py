@@ -79,8 +79,15 @@ extract_faces_and_audio(video_path, output_dir)
 
 # EMPLOY VISUAL MODEL 
 
+# Get the directory where the script is located
+script_dir = os.path.dirname(__file__)
+
+# visual_model_path = r'C:\Users\Andres\Documents\GitHub\Senior_Project\User\models\firstmodel.keras'
+
+visual_model_path = os.path.join(script_dir, 'models/firstmodel.keras')
+
 # We now load the visual model
-visual_model = tf.keras.models.load_model('/Users/manuelnunezmartinez/Documents/UF/Spring24/Senior Project/Senior_Project/User/models/firstmodel.keras')
+visual_model = tf.keras.models.load_model(visual_model_path)
 # the visual model evaluates each screenshot below
 visual_predictions = []
 path_to_images = 'split_input/visual'
@@ -152,9 +159,12 @@ class AudioCNN(nn.Module):
         return x
 
 
+# Build the path to the model file
+model_path = os.path.join(script_dir, 'models/audio_model_path.pth')
+
 # Load the model 
 model = AudioCNN()
-model.load_state_dict(torch.load('/Users/manuelnunezmartinez/Documents/UF/Spring24/Senior Project/Senior_Project/User/models/audio_model_path.pth'))
+model.load_state_dict(torch.load(model_path))
 
 # Function to evaluate input given path 
 def full_pipeline(file_path):
@@ -173,9 +183,11 @@ def full_pipeline(file_path):
     return outputs
 
 # We now load the audio model
-audio_path = '/Users/manuelnunezmartinez/Documents/UF/Spring24/Senior Project/Senior_Project/User/split_input/audio/audio.wav'
+
+
+audio_path = os.path.join(script_dir, 'split_input/audio.wav')
 audio_predictions = full_pipeline(audio_path)
-audio_predictions = audio_predictions.tolist()
+audio_predictions = audio_predictions.tolist()[0]
 
 
 
@@ -186,6 +198,12 @@ audio_predictions = audio_predictions.tolist()
 # Contempt and Calmness are not considered as they arent present in both data sets 
 
 results_dict = {}
+
+
+print(audio_predictions)
+print(visual_predictions)
+
+
 
 # assign emotions to corresponding list index for both models 
 audio_dict = {'Angry': audio_predictions[0], 'Disgust': audio_predictions[2], 
