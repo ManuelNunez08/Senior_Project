@@ -36,21 +36,6 @@ def upload_video():
     
     return jsonify({'message': 'Video received and saved'}), 200
 
-@app.route('/pie-chart')
-def pie_chart():
-    labels = list(data_dict.keys())  # Convert keys to a list
-    values = list(data_dict.values())  # Convert values to a list
-
-    # Create a pie chart
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
-    fig.update_layout(title_text="Dictionary Representation")
-
-    # Convert the figures to HTML elements
-    plot_div = pio.to_html(fig, full_html=False)
-
-    # Render the template with the plot
-    return render_template_string(html_template, plot=plot_div)
-
 @app.route('/visualize')
 def visualize():
     # Open and read the JSON file
