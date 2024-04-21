@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Mood Meter</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
 </head>
 <body>
   <div class="header">
@@ -20,6 +22,8 @@
     <button id="sendButton" class="button" style="display:none;">Send Video</button>
     <button id="cameraButton" class="button">Record Video</button>
     <button id="retakeButton" class="button" style="display:none;">Record Another Video</button>
+    <div id="loadingIndicator" style="display:none;">Processing your video, please wait...</div>
+    <button id="showResultsButton" style="display:none;" onclick="window.location.href='/visualize'">Show Results</button>  
   </div>
   <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 </body>

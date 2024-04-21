@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const videoPlayback = document.getElementById('videoPlayback');
   const recordingProgress = document.getElementById('recordingProgress');
 
+  var socket = io.connect('http://localhost:5000');
+
+  socket.on('processing_done', function(data) {
+    console.log(data.message);  // Log the message
+    // Hide the loading indicator and show the results button
+    document.getElementById('loadingIndicator').style.display = 'none';
+    document.getElementById('showResultsButton').style.display = 'block';
+  });
+
   const videoFormats = [
     'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', // MP4 with H.264/AAC
     'video/webm; codecs="vp9,opus"', // WebM with VP9/Opus
@@ -66,9 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
       sendButton.style.display = 'block'; // Show send button
       retakeButton.style.display = 'block'; // Show the retake video button
       cameraButton.style.display = 'none';
+
       sendButton.onclick = function() {
         const formData = new FormData();
         formData.append('video', videoBlob, 'video.mp4');
+
+        // Display the loading indicator
+        document.getElementById('loadingIndicator').style.display = 'block';
         
         fetch('/upload-video', {
           method: 'POST',
@@ -79,13 +92,14 @@ document.addEventListener('DOMContentLoaded', function() {
           console.log(data.message);
           URL.revokeObjectURL(videoUrl); // Clean up the URL object
           videoPlayback.style.display = 'none';
-          videoPreview.style.display = 'block';
-          sendButton.style.display = 'none'; // Hide send button after sending
-          videoPreview.srcObject = null;
-          initCamera(); // Reinitialize camera for another recording if needed
+          videoPreview.style.display = 'none';
+          sendButton.style.display = 'none';
+          retakeButton.style.display = 'none';
+          cameraButton.style.display = 'none';
         })
         .catch(error => {
           console.error(error);
+          document.getElementById('loadingIndicator').style.display = 'none';
         });
       };
 

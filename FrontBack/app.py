@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, render_template_string
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
 import plotly.graph_objects as go
@@ -11,6 +12,9 @@ import sys
 import threading
 
 app = Flask(__name__)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins='*')
+
 VIDEO_FOLDER = 'saved-videos'
 
 # Get the directory where the script is located
@@ -74,10 +78,9 @@ def upload_video():
 @app.route('/processing-complete', methods=['POST'])
 def processing_complete():
     data = request.json
-    # Log the data, update the database, or trigger further actions here
     print("Processing complete with data:", data)
-    # Optionally, emit a socket message to the client if using WebSockets
-    return jsonify({'status': 'success', 'message': 'Processing completion acknowledged'}), 200
+    socketio.emit('processing_done', {'message': 'Processing complete'})
+    return jsonify({'status': 'success', 'message': 'Notified frontend'}), 200
 
 @app.route('/home')
 def home():
@@ -160,4 +163,4 @@ def visualize():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app)
