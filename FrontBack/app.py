@@ -57,7 +57,7 @@ def home():
     # Bar charts for the visual and audio predictions
     for key in ['Visual_Predictions', 'Audio_Predictions']:
         fig = go.Figure([go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()), marker_color=color_palette)])
-        fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5, margin=dict(l=100, r=100))
+        fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5)
         plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False)
 
     # Pie charts for the complex emotions

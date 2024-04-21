@@ -228,6 +228,8 @@ progress[value]::-webkit-progress-bar {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  text-align: center;
+  justify-items: center;
   /* Align children to start at the same height */
   justify-content: space-between;
   /* Keep existing spacing */
@@ -238,9 +240,12 @@ progress[value]::-webkit-progress-bar {
 .visual-context,
 .audio-context {
   flex: 1;
-  /* Allows the columns to grow and take up equal space */
-  padding: 10px;
-  /* Add some space around the content of each column */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  top: 0; bottom: 0; right: 0; left: 0;  /* follow the parent's edges */
+  
 }
 
 .screenshots-container {
