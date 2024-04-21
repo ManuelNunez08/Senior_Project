@@ -21,7 +21,7 @@ VIDEO_FOLDER = 'saved-videos'
 # Get the directory where the script is located
 script_dir = os.path.dirname(__file__)
 
-RESULTS_PATH = os.path.join(script_dir, '../User/results.json')
+RESULTS_PATH = os.path.join(script_dir, 'results.json')
 
 READ_INPUT_PATH = os.path.join(script_dir, '../User/ReadInput.py')
 
