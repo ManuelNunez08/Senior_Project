@@ -43,7 +43,30 @@ def upload_video():
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    # Define the path to your JSON file
+    EXAMPLE_RESULTS_PATH = os.path.join(app.root_path, 'static', 'home_page/Example_results.json')
+    
+    # Open and read the JSON file
+    with open(EXAMPLE_RESULTS_PATH) as file:
+        data_dict = json.load(file)
+
+    # Initialize a dictionary to hold our plotly divs
+    plots_div = {}
+
+    # Bar charts for the visual and audio predictions
+    for key in ['Visual_Predictions', 'Audio_Predictions']:
+        fig = go.Figure([go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()))])
+        fig.update_layout(title_text=key.replace('_', ' '))
+        plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False)
+
+    # Pie charts for the complex emotions
+    for key in ['Visual_Complex', 'Audio_Complex', 'Combined_Complex']:
+        fig = go.Figure([go.Pie(labels=list(data_dict[key].keys()), values=list(data_dict[key].values()))])
+        fig.update_layout(title_text=key.replace('_', ' '))
+        plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False)
+
+    # Render the homepage with the plots
+    return render_template('home.html', plots=plots_div)
 
 @app.route('/visualize')
 def visualize():

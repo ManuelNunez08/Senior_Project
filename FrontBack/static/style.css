@@ -186,3 +186,82 @@ progress[value]::-webkit-progress-bar {
   margin: 0;
   /* Adjust as needed */
 }
+
+.video-size {
+  width: 100%;
+  /* Full width on smaller screens */
+  max-width: 320px;
+  /* Adjust maximum width as needed */
+  height: auto;
+}
+
+@media (min-width: 600px) {
+  .video-size {
+    max-width: 480px;
+    /* Larger video on wider screens */
+  }
+
+  .context-columns {
+    flex-direction: column;
+  }
+
+  .visual-context,
+  .audio-context {
+    margin-bottom: 20px;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  /* Stack items vertically */
+  align-items: center;
+  /* Center items horizontally */
+  justify-content: center;
+  /* Center items vertically (if the container has a fixed height) */
+  text-align: center;
+  /* Center-align the text */
+}
+
+.context-columns {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  /* Align children to start at the same height */
+  justify-content: space-between;
+  /* Keep existing spacing */
+  gap: 20px;
+  /* Optional: adds space between columns */
+}
+
+.visual-context,
+.audio-context {
+  flex: 1;
+  /* Allows the columns to grow and take up equal space */
+  padding: 10px;
+  /* Add some space around the content of each column */
+}
+
+.screenshots-container {
+  display: flex;
+  justify-content: center;
+  /* Center screenshots horizontally */
+  gap: 20px;
+  /* Space between screenshots */
+}
+
+.screenshot {
+  flex: 1;
+  /* Allow screenshots to grow and fill the container */
+  max-width: 100%;
+  /* Ensure screenshots are responsive */
+  height: auto;
+  /* Maintain aspect ratio */
+  max-height: 100px;
+  /* Optional: limit the height of the screenshots */
+}
+
+.combined-complex {
+  text-align: center;
+  margin-top: 20px;
+}

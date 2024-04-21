@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mood Meter AI: Unveiling Emotions Through AI</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 
 <body>
@@ -50,7 +51,62 @@
             </div>
         </section>
 
-        <section id="about-plutchiks-wheel" class="section">
+        <section id="example-demo" class="section">
+            <div class="container">
+                <h2>Example Demo</h2>
+                </h3>Consider the video below, where a sample user records themselves acting very angrily.</h3>
+                <video controls class="video-size" width="320" height="auto">
+                    <source src="../static/home_page/Example_input.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="context-columns">
+                <div class="visual-context">
+                    <h3>The visual context is interpreted through the following screenshots taken of the user's face:</h3>
+                    <img src="../static/home_page/screenshots/face_1.jpg" alt="Screenshot 1" class="screenshot">
+                    <img src="../static/home_page/screenshots/face_2.jpg" alt="Screenshot 2" class="screenshot">
+                    <img src="../static/home_page/screenshots/face_3.jpg" alt="Screenshot 3" class="screenshot">
+                </div>
+                <div class="audio-context">
+                    <h3>The audio context of the model is interpreted through the following wav file:</h3>
+                    <audio controls>
+                        <source src="../static/home_page/audio.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+            <p>A break down of the emotions detected through both a visual and auditory context are provided by the bar charts below.</p>
+            <div class="context-columns">
+                <div class="visual-context">
+                    {{ plots['Visual_Predictions']|safe }}
+                </div>
+                <div class="audio-context">
+                    {{ plots['Audio_Predictions']|safe }}
+                </div>
+            </div>
+
+            <p>We then consider complex emotions strictly formed through a combination of expressions in each context.</p>
+            <div class="context-columns">
+                <div class="visual-context">
+                    {{ plots['Visual_Complex']|safe }}
+                </div>
+                <div class="audio-context">
+                    {{ plots['Audio_Complex']|safe }}
+                </div>
+            </div>
+        </div>
+
+        <div class="combined-complex">
+            <h3>Combined Complex Emotions</h3>
+            <p>Lastly, we combine the auditory and visual contexts of emotional expression to detect the most predominant complex emotions.</p>
+            {{ plots['Combined_Complex']|safe }}
+        </div>
+
+
+        <section id="about-plutchiks-wheel" class="section bg-light">
             <div class="container">
                 <h2>About Plutchik's Wheel</h2>
                 <div class="flex-container">
@@ -67,7 +123,17 @@
             </div>
         </section>
 
-
+        <section id="Application" class="section">
+            <div class="container">
+                <h2>Applications</h2>
+                <p>Hello, welcome to Mood Meter AI, where we employ deep learning neural net models in the recognition of human
+                    emotion. Emotion is an extremely nuanced and subjective form of expression, conveyed in many ways and
+                    heavily reliant on the idiosyncrasies of human behavior. Our models are trained to identify seven basic
+                    emotions: anger, disgust, fear, happiness, sadness,
+                    surprise, and neutrality. Beyond these, we leverage Plutchik's wheel to delve into complex emotions,
+                    offering a comprehensive analysis of your emotional expression.</p>
+            </div>
+        </section>
 
     </main>
 
