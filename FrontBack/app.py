@@ -10,6 +10,7 @@ import json
 import subprocess
 import sys
 import threading
+from interpretEmotions import get_interpretation
 
 app = Flask(__name__)
 CORS(app)
@@ -110,6 +111,11 @@ def home():
     # Render the homepage with the plots
     return render_template('home.html', plots=plots_div)
 
+
+
+
+
+
 @app.route('/visualize')
 def visualize():
     # Open and read the JSON file
@@ -142,23 +148,26 @@ def visualize():
 
     # Convert both subplot figures to HTML
     plot_html_bar = pio.to_html(fig_bar, full_html=False, include_plotlyjs='cdn')
-    plot_html_pie = pio.to_html(fig_pie, full_html=False, include_plotlyjs=False)  # No need to include Plotly.js again
+    plot_html_pie = pio.to_html(fig_pie, full_html=False, include_plotlyjs=False) 
 
-    # Render both plots in a single HTML template, stacked vertically
-    html_template = """
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <title>Data Visualization</title>
-            </head>
-            <body>
-                {plot_html_bar}
-                {plot_html_pie}
-            </body>
-        </html>
-        """.format(plot_html_bar=plot_html_bar, plot_html_pie=plot_html_pie)
+    # obtain f strings for bar charts and complex emotions. 
+    visual_message = get_interpretation(data_dict['Visual_Predictions'], 'visual context')
+    audio_message = get_interpretation(data_dict['Audio_Predictions'], 'auditory context')
+    visual_complex_message = get_interpretation(data_dict['Visual_Complex'], 'complex visual context')
+    audio_complex_message = get_interpretation(data_dict['Audio_Complex'], 'complex auditory context')
+    mixed_complex_message = get_interpretation(data_dict['Combined_Complex'], 'combined complex context')
 
-    return render_template_string(html_template)
+
+
+    return render_template('visualize.html', 
+                            plot_html_bar=plot_html_bar, 
+                            plot_html_pie=plot_html_pie,
+                            visual_message=visual_message,
+                            audio_message=audio_message,
+                            visual_complex_message=visual_complex_message,
+                            audio_complex_message=audio_complex_message,
+                            mixed_complex_message=mixed_complex_message
+                            )
 
 
 
