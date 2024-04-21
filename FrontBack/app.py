@@ -4,7 +4,8 @@ from werkzeug.utils import secure_filename
 import plotly.graph_objects as go
 import plotly.io as pio
 import json 
-
+import subprocess
+import sys
 
 app = Flask(__name__)
 VIDEO_FOLDER = 'saved-videos'
@@ -14,6 +15,9 @@ script_dir = os.path.dirname(__file__)
 
 RESULTS_PATH = os.path.join(script_dir, '../User/results.json')
 
+READ_INPUT_PATH = os.path.join(script_dir, '../User/ReadInput.py')
+
+VIDEO_FILE = os.path.join(VIDEO_FOLDER, 'video.mp4')
 
 
 # Create a directory for saved-videos if it doesn't exist
@@ -36,8 +40,29 @@ def upload_video():
     filename = secure_filename(video.filename)
     # Save video to the saved-videos folder
     video.save(os.path.join(VIDEO_FOLDER, filename))
+
+    # Convert the video to a compatible format
+    output_path = os.path.join(VIDEO_FOLDER, 'converted_video.mp4')
+    command = [
+        'ffmpeg', '-y',  # Automatically overwrite existing files
+        '-i', VIDEO_FILE,  # Input file
+        '-r', '30',  # Set frame rate to 30 fps
+        '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',  # Video codec settings
+        '-c:a', 'aac', '-b:a', '192k',  # Audio codec settings
+        output_path  # Output file
+    ]
+    try:
+        subprocess.run(command, check=True)
+        print("Conversion successful")
+    except subprocess.CalledProcessError as e:
+        return jsonify({'error': 'Failed to convert video', 'details': str(e)}), 500
     
-    # Process your video here with your ML model
+    # After saving, run the ReadInput.py script
+    try:
+        # Run the script
+        subprocess.run([sys.executable, READ_INPUT_PATH], check=True)
+    except subprocess.CalledProcessError as e:
+        return jsonify({'error': 'Failed to process video', 'details': str(e)}), 500
     
     return jsonify({'message': 'Video received and saved'}), 200
 

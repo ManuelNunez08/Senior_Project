@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const videoPlayback = document.getElementById('videoPlayback');
   const recordingProgress = document.getElementById('recordingProgress');
 
+  const videoFormats = [
+    'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', // MP4 with H.264/AAC
+    'video/webm; codecs="vp9,opus"', // WebM with VP9/Opus
+    'video/webm; codecs="vp8,opus"', // WebM with VP8/Opus
+    'video/webm' // Fallback to default WebM
+  ];
+
   let mediaRecorder;
   let videoChunks = [];
   let stream = null;
@@ -20,12 +27,28 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
+  function findSupportedMimeType() {
+    for (let format of videoFormats) {
+      if (MediaRecorder.isTypeSupported(format)) {
+        console.log("Using MIME type:", format); // Log the selected MIME type
+        return format;
+      }
+    }
+    return null; // No supported type found
+  }
+
   cameraButton.addEventListener('click', function() {
     if (!stream) {
       console.error('Camera not initialized');
       return;
     }
-    mediaRecorder = new MediaRecorder(stream);
+    let options = { mimeType: findSupportedMimeType() };
+    if (!options.mimeType) {
+        console.error('No supported video format found.');
+        return;
+    }
+
+    mediaRecorder = new MediaRecorder(stream, options);
     videoChunks = [];
     
     mediaRecorder.ondataavailable = function(e) {
@@ -33,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     mediaRecorder.onstop = function(e) {
-      const videoBlob = new Blob(videoChunks, { 'type': 'video/mp4' });
+      const videoBlob = new Blob(videoChunks, { type: options.mimeType });
       const videoUrl = URL.createObjectURL(videoBlob);
       videoPlayback.src = videoUrl;
       videoPlayback.style.display = 'block'; // Show the playback video
