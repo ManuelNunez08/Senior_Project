@@ -144,3 +144,45 @@ progress[value]::-webkit-progress-bar {
   background-color: #5D3FD3;
   /* Darker purple on hover */
 }
+
+
+.plutchiks-wheel-image {
+  max-width: 100%;
+  /* Ensure the image is responsive and fits its container */
+  height: auto;
+  /* Maintain aspect ratio */
+  display: block;
+  /* Display block to allow for margin auto to work */
+  margin: 20px auto;
+  /* Center the image and add some space around it */
+  border-radius: 8px;
+  /* Optional: adds rounded corners to the image */
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  /* Aligns items vertically in the center */
+  justify-content: flex-start;
+  /* Aligns items to the start of the container */
+  gap: 20px;
+  /* Adds space between the image and the text */
+}
+
+.plutchiks-wheel-image {
+  flex: 1;
+  /* Allows the image to grow */
+  max-width: 50%;
+  /* Limits image width to 50% of the flex container */
+  height: auto;
+  /* Maintain aspect ratio */
+  border-radius: 8px;
+  /* Optional: adds rounded corners to the image */
+}
+
+.flex-container p {
+  flex: 2;
+  /* Allows the text to take up more space than the image */
+  margin: 0;
+  /* Adjust as needed */
+}
