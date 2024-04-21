@@ -208,6 +208,7 @@ progress[value]::-webkit-progress-bar {
   .visual-context,
   .audio-context {
     margin-bottom: 20px;
+    align-items: center;
   }
 }
 
@@ -263,5 +264,14 @@ progress[value]::-webkit-progress-bar {
 
 .combined-complex {
   text-align: center;
+  justify-items: center;
   margin-top: 20px;
+  margin-bottom: 20px;
+  width: 400;
+}
+
+.combined-context {
+  width: 50%;
+  margin: auto;
+  justify-content: center;
 }

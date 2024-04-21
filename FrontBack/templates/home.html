@@ -102,7 +102,9 @@
         <div class="combined-complex">
             <h3>Combined Complex Emotions</h3>
             <p>Lastly, we combine the auditory and visual contexts of emotional expression to detect the most predominant complex emotions.</p>
-            {{ plots['Combined_Complex']|safe }}
+            <div class="combined-context">
+                {{ plots['Combined_Complex']|safe }}
+            </div>
         </div>
 
 
@@ -112,7 +114,7 @@
                 <div class="flex-container">
                     <img src="../static/home_page/plutchiks_wheel.png" alt="Plutchik's Wheel of Emotions"
                         class="plutchiks-wheel-image">
-                    <p>Plutchik's Wheel of Emotions is a comprehensive model that illustrates the relationships among the
+                    <p style="font-size: 20pt;">Plutchik's Wheel of Emotions is a comprehensive model that illustrates the relationships among the
                         primary emotions and how they combine to form complex emotions. The wheel features eight basic emotions:
                         joy, trust, fear, surprise, sadness, anticipation, anger, and disgust. These primary emotions act as the
                         foundation for more nuanced and complex emotional states by combining in various ways. For example,
