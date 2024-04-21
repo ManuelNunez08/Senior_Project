@@ -3,6 +3,7 @@ import os
 from werkzeug.utils import secure_filename
 import plotly.graph_objects as go
 import plotly.io as pio
+from plotly.subplots import make_subplots
 import json 
 
 
@@ -46,34 +47,48 @@ def visualize():
     # Open and read the JSON file
     with open(RESULTS_PATH) as file:
         data_dict = json.load(file)
+        
+    fig_bar = make_subplots(rows=1, cols=2, subplot_titles=('Visual Predictions', 'Audio Predictions'))
+    bar_charts = ['Visual_Predictions', 'Audio_Predictions']
+    for i, key in enumerate(bar_charts, start=1):
+        fig_bar.add_trace(
+            go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()), 
+                   name=key.replace('_', ' ')),
+            row=1, col=i
+        )
+    fig_bar.update_layout(height=400, width=800, showlegend=False, title_text="Bar Chart Visualizations")
 
-    plots_div = []
+    # Second subplot with pie charts
+    fig_pie = make_subplots(rows=1, 
+                            cols=3, 
+                            subplot_titles=('Visual Complexity', 'Audio Complexity', 'Combined Complexity'),
+                            specs=[[{"type":"pie"}, {"type":"pie"}, {"type":"pie"}]])
+    pie_charts = ['Visual_Complex', 'Audio_Complex', 'Combined_Complex']
+    for i, key in enumerate(pie_charts, start=1):
+        fig_pie.add_trace(
+            go.Pie(labels=list(data_dict[key].keys()), values=list(data_dict[key].values()), 
+                   name=key.replace('_', ' ')),
+            row=1, col=i
+        )
+    fig_pie.update_layout(height=400, width=800, title_text="Pie Chart Visualizations")
 
-    # Bar charts for the first two
-    for key in ['Visual_Predictions', 'Audio_Predictions']:
-        fig = go.Figure([go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()))])
-        fig.update_layout(title_text=key.replace('_', ' '))
-        plots_div.append(pio.to_html(fig, full_html=False))
+    # Convert both subplot figures to HTML
+    plot_html_bar = pio.to_html(fig_bar, full_html=False, include_plotlyjs='cdn')
+    plot_html_pie = pio.to_html(fig_pie, full_html=False, include_plotlyjs=False)  # No need to include Plotly.js again
 
-    # Pie charts for the remaining three
-    for key in ['Visual_Complex', 'Audio_Complex', 'Combined_Complex']:
-        fig = go.Figure([go.Pie(labels=list(data_dict[key].keys()), values=list(data_dict[key].values()))])
-        fig.update_layout(title_text=key.replace('_', ' '))
-        plots_div.append(pio.to_html(fig, full_html=False))
-
-    # Render all plots in an HTML template
+    # Render both plots in a single HTML template, stacked vertically
     html_template = """
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Data Visualization</title>
-    </head>
-    <body>
-        <h2>Data Visualization</h2>
-        {}
-    </body>
-</html>
-""".format("".join(plots_div))  # Insert plots into HTML
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>Data Visualization</title>
+            </head>
+            <body>
+                {plot_html_bar}
+                {plot_html_pie}
+            </body>
+        </html>
+        """.format(plot_html_bar=plot_html_bar, plot_html_pie=plot_html_pie)
 
     return render_template_string(html_template)
 

@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   cameraButton.addEventListener('click', function() {
+    cameraButton.style.display = 'none'; // hide the camera while vid recording
     if (!stream) {
       console.error('Camera not initialized');
       return;
