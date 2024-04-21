@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization - Mood Meter AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <h1>Mood Meter AI</h1>
+    </header>
+
+    <main class="container-visualize">
+        <h1>Model Classification Results</h1>
+        <div class="context-columns">
+            <div class="user-video">
+                <p>Below is the video inputted for classification:</p>
+                <video controls class="video-size">
+                    <source src="/static/home_page/Example_input.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <!-- Adding a margin for spacing below the video -->
+                <div class="video-messages" style="margin-top: 1em;">
+                    <h3>Intepretation of results: </h3>
+                    <ul>
+                        <!-- Messages in a bulleted list format -->
+                        <li>{{ visual_message }}</li>
+                        <li>{{ audio_message }}</li>
+                        <li>{{ visual_complex_message }}</li>
+                        <li>{{ audio_complex_message }}</li>
+                        <li>{{ mixed_complex_message }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="chart" id="bar-charts">
+                <!-- Bar charts content -->
+                {{ plot_html_bar|safe }}
+                {{ plot_html_pie|safe }}
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

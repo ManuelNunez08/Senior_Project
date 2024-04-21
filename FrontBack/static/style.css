@@ -196,9 +196,11 @@ progress[value]::-webkit-progress-bar {
 }
 
 @media (min-width: 600px) {
-  .video-size {
-    max-width: 480px;
-    /* Larger video on wider screens */
+.video-size {
+    width: 100%;
+    /* This will make the video responsive to the flex container's width */
+    max-height: 100%;
+    /* Limit the video's height to not exceed its container's height */
   }
 
   .context-columns {
@@ -209,6 +211,10 @@ progress[value]::-webkit-progress-bar {
   .audio-context {
     margin-bottom: 20px;
     align-items: center;
+  }
+
+  .charts-container {
+    flex-direction: column;
   }
 }
 
@@ -274,4 +280,44 @@ progress[value]::-webkit-progress-bar {
   width: 50%;
   margin: auto;
   justify-content: center;
+}
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Center charts vertically */
+  gap: 20px;
+  /* Space between charts */
+}
+
+.chart {
+  width: 100%;
+  /* Adjust as needed */
+  max-width: 800px;
+  /* Adjust based on your design */
+  margin-bottom: 20px;
+}
+.user-video {
+  flex: 1.5;
+  /* Allocate 50% more space to the video container */
+}
+
+.chart {
+  flex: 1;
+  /* Keep the chart container at the default size */
+}
+
+.context-columns {
+  display: flex;
+  /* This ensures that the children start off with equal width regardless of their content */
+  align-items: stretch;
+  /* This will make sure that both columns are of equal height */
+}
+
+
+.container-visualize {
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
 }
