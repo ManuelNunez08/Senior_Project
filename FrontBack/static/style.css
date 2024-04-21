@@ -5,61 +5,142 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
-  }
-  
-  .header {
-    background: #5D3FD3; /* A rich purple header */
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .main {
-    background: #fff;
-    padding: 20px;
-    text-align: center;
-    border: 2px solid #5D3FD3; /* Purple border for the content area */
-  }
-  
+}
+
+.header {
+  background: #5D3FD3; /* A rich purple header */
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.main {
+  background: #fff;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid #5D3FD3; /* Purple border for the content area */
+}
+
+.button {
+  background-color: #7D5BD3; /* A soft purple button */
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px; /* Rounded corners for the button */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #5D3FD3; /* Darker purple on hover */
+}
+
+/* Adjustments for the camera and audio icons */
+.icon {
+  fill: #5D3FD3; /* Purple color for the SVG icons */
+  width: 50px; /* Or any size that fits your design */
+  height: auto;
+}
+
+#videoPreview {
+  width: 100%; /* Adjust size as needed */
+  height: auto;
+  border: 1px solid #5D3FD3; /* Optional border */
+}
+
+#recordingProgress {
+  height: 20px; /* Set the height of the progress bar */
+  background-color: #D3D3D3;
+  color: #5D3FD3; /* Color of the progress */
+}
+progress[value]::-webkit-progress-value {
+  background-color: #5D3FD3;
+}
+progress[value]::-webkit-progress-bar {
+  background-color: #EAE7F8;
+}
+
+
+
+  /* Reset some default browser styles */
+  body,
+  h1,
+  h2,
+  h3,
+  p,
   .button {
-    background-color: #7D5BD3; /* A soft purple button */
-    color: #ffffff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px; /* Rounded corners for the button */
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #5D3FD3; /* Darker purple on hover */
-  }
-  
-  /* Adjustments for the camera and audio icons */
-  .icon {
-    fill: #5D3FD3; /* Purple color for the SVG icons */
-    width: 50px; /* Or any size that fits your design */
-    height: auto;
-  }
-  
-  #videoPreview {
-    width: 100%; /* Adjust size as needed */
-    height: auto;
-    border: 1px solid #5D3FD3; /* Optional border */
+    margin: 0;
+    padding: 0;
   }
 
-  #recordingProgress {
-    height: 20px; /* Set the height of the progress bar */
-    background-color: #D3D3D3;
-    color: #5D3FD3; /* Color of the progress */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F4F4F9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
   }
-  progress[value]::-webkit-progress-value {
+
+  .header {
     background-color: #5D3FD3;
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
   }
-  progress[value]::-webkit-progress-bar {
+
+  .header h1 {
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+  }
+
+  .header p {
+    font-size: 1.2rem;
+  }
+
+  .section {
+    padding: 40px 0;
+  }
+
+  .bg-light {
     background-color: #EAE7F8;
   }
-  
-  /* Additional styles for other elements as needed... */
-  
+
+  .container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+  }
+
+  .steps {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .step {
+    flex: 1;
+    min-width: 300px;
+    margin: 20
+  }
+
+
+.button {
+  background-color: #7D5BD3;
+  /* A soft purple button */
+  color: #ffffff;
+  padding: 10px 20px;
+  margin-top: 20px;
+  /* Adds some space above the button */
+  border: none;
+  border-radius: 5px;
+  /* Rounded corners for the button */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #5D3FD3;
+  /* Darker purple on hover */
+}

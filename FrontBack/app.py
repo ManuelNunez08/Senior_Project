@@ -41,6 +41,10 @@ def upload_video():
     
     return jsonify({'message': 'Video received and saved'}), 200
 
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
 @app.route('/visualize')
 def visualize():
     # Open and read the JSON file
