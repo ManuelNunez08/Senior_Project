@@ -175,6 +175,7 @@ def full_pipeline(file_path):
 # We now load the audio model
 audio_path = '/Users/manuelnunezmartinez/Documents/UF/Spring24/Senior Project/Senior_Project/User/split_input/audio/audio.wav'
 audio_predictions = full_pipeline(audio_path)
+print(audio_predictions)
 audio_predictions = audio_predictions.tolist()
 
 
