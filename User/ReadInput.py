@@ -22,7 +22,7 @@ import glob
 
 # for turing predictions to json 
 import json
-
+import requests
 
 
 def process_image(image_path):
@@ -291,3 +291,12 @@ json_path = 'results.json'
 # Writing the JSON data to a file
 with open(json_path, 'w') as json_file:
     json.dump(results_dict, json_file, indent=4)  
+
+
+def notify_processing_complete(process_data):
+    url = 'http://localhost:5000/processing-complete'
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, json=process_data, headers=headers)
+    print("Server responded with:", response.text)
+
+notify_processing_complete(results_dict)

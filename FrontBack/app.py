@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template, render_template_string
+from flask_socketio import SocketIO, emit
 import os
 from werkzeug.utils import secure_filename
 import plotly.graph_objects as go
@@ -7,6 +8,7 @@ from plotly.subplots import make_subplots
 import json 
 import subprocess
 import sys
+import threading
 
 app = Flask(__name__)
 VIDEO_FOLDER = 'saved-videos'
@@ -25,9 +27,27 @@ VIDEO_FILE = os.path.join(VIDEO_FOLDER, 'video.mp4')
 if not os.path.exists(VIDEO_FOLDER):
     os.makedirs(VIDEO_FOLDER)
 
-@app.route('/')
-def index():
+@app.route('/record-video')
+def record_video():
     return render_template('index.html')
+
+def process_video(filename, output_path):
+    command = [
+        'ffmpeg', '-y',
+        '-i', VIDEO_FILE,
+        '-r', '30',
+        '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+        '-c:a', 'aac', '-b:a', '192k',
+        output_path
+    ]
+    try:
+        subprocess.run(command, check=True)
+        print("Conversion successful")
+        # After conversion, run the ReadInput.py script
+        subprocess.run([sys.executable, READ_INPUT_PATH], check=True)
+        print("Processing successful")
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
 
 @app.route('/upload-video', methods=['POST'])
 def upload_video():
@@ -44,28 +64,20 @@ def upload_video():
 
     # Convert the video to a compatible format
     output_path = os.path.join(VIDEO_FOLDER, 'converted_video.mp4')
-    command = [
-        'ffmpeg', '-y',  # Automatically overwrite existing files
-        '-i', VIDEO_FILE,  # Input file
-        '-r', '30',  # Set frame rate to 30 fps
-        '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',  # Video codec settings
-        '-c:a', 'aac', '-b:a', '192k',  # Audio codec settings
-        output_path  # Output file
-    ]
-    try:
-        subprocess.run(command, check=True)
-        print("Conversion successful")
-    except subprocess.CalledProcessError as e:
-        return jsonify({'error': 'Failed to convert video', 'details': str(e)}), 500
-    
-    # After saving, run the ReadInput.py script
-    try:
-        # Run the script
-        subprocess.run([sys.executable, READ_INPUT_PATH], check=True)
-    except subprocess.CalledProcessError as e:
-        return jsonify({'error': 'Failed to process video', 'details': str(e)}), 500
+
+    # Start the video processing in a new thread
+    thread = threading.Thread(target=process_video, args=(filename, output_path))
+    thread.start()
     
     return jsonify({'message': 'Video received and saved'}), 200
+
+@app.route('/processing-complete', methods=['POST'])
+def processing_complete():
+    data = request.json
+    # Log the data, update the database, or trigger further actions here
+    print("Processing complete with data:", data)
+    # Optionally, emit a socket message to the client if using WebSockets
+    return jsonify({'status': 'success', 'message': 'Processing completion acknowledged'}), 200
 
 @app.route('/home')
 def home():
