@@ -10,7 +10,7 @@
 
 <body>
     <header class="header">
-        <h1>Mood Meter AI</h1>
+        <h1 class="clickable-header" onclick="window.location.href='/home'" >Mood Meter AI</h1>
     </header>
 
     <main class="container-visualize">
@@ -33,6 +33,9 @@
                         <li>{{ audio_complex_message }}</li>
                         <li>{{ mixed_complex_message }}</li>
                     </ul>
+                </div>
+                <div>
+                    <button class="button" onclick="window.location.href='/record-video'">Record Again</button>
                 </div>
             </div>
             <div class="chart" id="bar-charts">

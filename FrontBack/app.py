@@ -112,21 +112,19 @@ def home():
     return render_template('home.html', plots=plots_div)
 
 
-
-
-
-
 @app.route('/visualize')
 def visualize():
     # Open and read the JSON file
     with open(RESULTS_PATH) as file:
         data_dict = json.load(file)
         
+    color_palette = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
+    
     fig_bar = make_subplots(rows=1, cols=2, subplot_titles=('Visual Predictions', 'Audio Predictions'))
     bar_charts = ['Visual_Predictions', 'Audio_Predictions']
     for i, key in enumerate(bar_charts, start=1):
         fig_bar.add_trace(
-            go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()), 
+            go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()), marker_color=color_palette, 
                    name=key.replace('_', ' ')),
             row=1, col=i
         )
@@ -172,4 +170,4 @@ def visualize():
 
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, allow_unsafe_werkzeug=True)

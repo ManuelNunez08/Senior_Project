@@ -326,3 +326,7 @@ progress[value]::-webkit-progress-bar {
   margin: auto;
   overflow: hidden;
 }
+
+.clickable-header{
+  cursor: pointer;
+}

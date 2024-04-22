@@ -249,7 +249,7 @@ audio_dict = {'Angry': audio_predictions[0], 'Disgust': audio_predictions[2],
 
 visual_dict = {'Angry': visual_predictions[0], 'Disgust': visual_predictions[1], 
             'Fear':visual_predictions[2], 'Happy': visual_predictions[3], 'Neutral': visual_predictions[6], 
-            'Sad':visual_predictions[4], 'Surprise':visual_predictions[5], }
+            'Sad':visual_predictions[4], 'Surprise':visual_predictions[5]}
 
 # Find complex emotions within each complex 
 visual_complex_emotions = {
