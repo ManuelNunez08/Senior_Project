@@ -1,40 +1,98 @@
 /* static/style.css */
+/* static/style.css */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #EAE7F8; /* A light purple background */
-    color: #333;
-    margin: 0;
-    padding: 0;
+  font-family: 'Poppins', sans-serif;
+  /* Changed to a more modern font */
+  background-color: #F4F4F9;
+  /* Kept your light and neutral background */
+  color: #333;
+  margin: 0;
+  padding: 20px;
 }
 
 .header {
-  background: #5D3FD3; /* A rich purple header */
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  /* Gradient for a dynamic header */
   color: #fff;
-  padding: 20px;
+  padding: 40px 20px;
   text-align: center;
 }
 
-.main {
+.main,
+.section {
   background: #fff;
   padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  /* Rounded corners for the sections */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Adding a subtle shadow for depth */
   text-align: center;
-  border: 2px solid #5D3FD3; /* Purple border for the content area */
 }
 
 .button {
-  background-color: #7D5BD3; /* A soft purple button */
+  background-color: #667eea;
+  /* Harmonizing button color with the header */
   color: #ffffff;
-  padding: 10px 15px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 5px; /* Rounded corners for the button */
+  border-radius: 25px;
+  /* More pronounced rounded corners for buttons */
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-weight: 500;
+  /* Making the text a bit bolder */
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #5D3FD3; /* Darker purple on hover */
+  background-color: #5D3FD3;
+  /* Darker purple on hover */
+  transform: translateY(-3px);
+  /* Slight lift effect on hover */
 }
+
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.steps,
+.context-columns {
+  display: flex;
+  justify-content: space-around;
+  /* Changing to 'space-around' for even spacing */
+  flex-wrap: wrap;
+  gap: 20px;
+  /* Ensuring consistent spacing between items */
+}
+
+.step,
+.visual-context,
+.audio-context {
+  flex: 1;
+  min-width: 300px;
+  margin-bottom: 20px;
+  /* Ensuring space between steps when wrapped */
+}
+
+.plutchiks-wheel-image,
+.screenshot {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border-radius: 8px;
+  /* Consistent rounded corners for images */
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 
 /* Adjustments for the camera and audio icons */
 .icon {
@@ -44,9 +102,9 @@ body {
 }
 
 #videoPreview {
-  width: 100%; /* Adjust size as needed */
+  width: 50%; /* Adjust size as needed */
   height: auto;
-  border: 1px solid #5D3FD3; /* Optional border */
+  padding: 40px 0;
 }
 
 #recordingProgress {
@@ -63,67 +121,49 @@ progress[value]::-webkit-progress-bar {
 
 
 
-  /* Reset some default browser styles */
-  body,
-  h1,
-  h2,
-  h3,
-  p,
-  .button {
-    margin: 0;
-    padding: 0;
-  }
+/* Reset some default browser styles */
+body,
+h1,
+h2,
+h3,
+p,
+.button {
+  margin: 0;
+  padding: 0;
+}
 
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #F4F4F9;
-    color: #333;
-    line-height: 1.6;
-    padding: 20px;
-  }
 
-  .header {
-    background-color: #5D3FD3;
-    color: #fff;
-    padding: 40px 0;
-    text-align: center;
-  }
 
-  .header h1 {
-    margin-bottom: 10px;
-    font-size: 2.5rem;
-  }
+.header h1 {
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+}
 
-  .header p {
-    font-size: 1.2rem;
-  }
+.header p {
+  font-size: 1.2rem;
+}
 
-  .section {
-    padding: 40px 0;
-    text-align: center;
-  }
+.section {
+  padding: 40px 0;
+  text-align: center;
+}
 
-  .bg-light {
-    background-color: #EAE7F8;
-  }
+.bg-light {
+  background-color: #EAE7F8;
+}
 
-  .container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-  }
 
-  .steps {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
+.steps {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
 
-  .step {
-    flex: 1;
-    min-width: 300px;
-    margin: 20
-  }
+.step {
+  flex: 1;
+  min-width: 300px;
+  margin: 20
+}
 
 
 .button {
@@ -332,4 +372,20 @@ progress[value]::-webkit-progress-bar {
 
 .applications-list {
   text-align: left;
+}
+
+.video-messages ul {
+  text-align: left;
+  /* Aligns the text to the left */
+  padding: 0;
+  /* Removes default padding */
+  list-style-type: disc;
+  /* Ensures bullets are shown, adjust as needed */
+  margin-left: 20px;
+  /* Adds space before the bullets to indent them */
+}
+
+.video-messages li {
+  margin-bottom: 10px;
+  /* Adds space between list items */
 }

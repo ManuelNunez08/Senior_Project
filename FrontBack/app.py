@@ -40,23 +40,6 @@ if not os.path.exists(VIDEO_FOLDER):
 def record_video():
     return render_template('index.html')
 
-# def process_video(filename, output_path):
-#     command = [
-#         'ffmpeg', '-y',
-#         '-i', VIDEO_FILE,
-#         '-r', '30',
-#         '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-#         '-c:a', 'aac', '-b:a', '192k',
-#         output_path
-#     ]
-#     try:
-#         subprocess.run(command, check=True)
-#         print("Conversion successful")
-#         # After conversion, run the ReadInput.py script
-#         subprocess.run([sys.executable, READ_INPUT_PATH], check=True)
-#         print("Processing successful")
-#     except subprocess.CalledProcessError as e:
-#         print(f"An error occurred: {e}")
 
 @app.route('/upload-video', methods=['POST'])
 def upload_video():
@@ -133,16 +116,20 @@ def home():
     plots_div = {}
     color_palette = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
 
+    # Customize the plot size here
+    plot_width = 600
+    plot_height = 400
+
     # Bar charts for the visual and audio predictions
     for key in ['Visual_Predictions', 'Audio_Predictions']:
         fig = go.Figure([go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()), marker_color=color_palette)])
-        fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5)
+        fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5, width=plot_width/1.5, height=plot_height)
         plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False, config={'staticPlot': True})
 
     # Pie charts for the complex emotions
     for key in ['Visual_Complex', 'Audio_Complex', 'Combined_Complex']:
         fig = go.Figure([go.Pie(labels=list(data_dict[key].keys()), values=list(data_dict[key].values()))])
-        fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5, legend=dict(x=0))
+        fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5, legend=dict(x=0), width=plot_width, height=plot_height)
         plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False, config={'staticPlot': True})
 
     # Render the homepage with the plots
