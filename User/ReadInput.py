@@ -100,7 +100,7 @@ script_dir = os.path.dirname(__file__)
 
 # visual_model_path = r'C:\Users\Andres\Documents\GitHub\Senior_Project\User\models\firstmodel.keras'
 
-visual_model_path = os.path.join(script_dir, 'models/mesamodel.keras')
+visual_model_path = os.path.join(script_dir, 'models/thirdmodel.keras')
 
 # We now load the visual model
 visual_model = tf.keras.models.load_model(visual_model_path)

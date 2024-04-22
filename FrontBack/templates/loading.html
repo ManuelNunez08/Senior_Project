@@ -1,0 +1,33 @@
+<!-- templates/loading.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading - Mood Meter AI</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='loading.css') }}">
+</head>
+<body>
+    <div id="is-loading-page" style="display: none;"></div>
+    <div id="loadingScreen">
+        <div id="cooking">
+            <h1>Cooking in progress...</h1>
+            <div id="area">
+                <div id="sides">
+                    <div id="pan"></div>
+                    <div id="handle"></div>
+                </div>
+                <div id="pancake">
+                    <div id="pastry"></div>
+                </div>
+            </div>
+            <div class="bubble"></div> <!-- Repeat as needed -->
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

@@ -2,6 +2,15 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  console.log("Script loaded");
+  if (document.getElementById('is-loading-page')) {
+    console.log("Loading page detected, starting status check");
+    checkProcessingStatus();
+  } else {
+    console.log("Not loading page, skipping status check");
+  }
+
   const cameraButton = document.getElementById('cameraButton');
   const retakeButton = document.getElementById('retakeButton');
   const sendButton = document.getElementById('sendButton');
@@ -50,6 +59,26 @@ document.addEventListener('DOMContentLoaded', function() {
     return null; // No supported type found
   }
 
+  function checkProcessingStatus() {
+    fetch('/status')
+    .then(response => response.json())
+    .then(data => {
+        console.log('Processing status:', data.status);
+        if (data.status === 'completed') {
+            window.location.href = "/visualize"; // Redirect when processing is completed
+        } else if (data.status === 'error') {
+            window.location.href = "/record-video"; // Redirect on error
+        } else {
+            // Continue polling if status is 'processing' or any other non-final state
+            setTimeout(checkProcessingStatus, 2000); // Poll every 2 seconds
+        }
+    })
+    .catch(error => {
+        console.error('Failed to fetch processing status:', error);
+        setTimeout(checkProcessingStatus, 2000); // Retry polling on fetch error
+    });
+}
+
   cameraButton.addEventListener('click', function() {
     cameraButton.style.display = 'none'; // hide the camera while vid recording
     if (!stream) {
@@ -82,42 +111,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
       sendButton.onclick = function() {
-        videoPlayback.style.display = 'none';
-        videoPreview.style.display = 'none';
-        sendButton.style.display = 'none';
-        retakeButton.style.display = 'none';
-        cameraButton.style.display = 'none';
-        recordDescription.style.display = 'none';
-        
-
-
+        // Collect the video data
         const formData = new FormData();
         formData.append('video', videoBlob, 'video.mp4');
-
-        // Display the loading indicator
-        document.getElementById("loadingScreen").style.display = "block";
-        
+    
+        // Redirect to the loading page immediately
+        window.location.href = "/loading";
+    
+        // After redirecting to the loading page, start the upload process
         fetch('/upload-video', {
-          method: 'POST',
-          body: formData
+            method: 'POST',
+            body: formData
         })
         .then(response => response.json())
         .then(data => {
-          console.log(data.message);
-          URL.revokeObjectURL(videoUrl); // Clean up the URL object
-
-          if(data.success) {
-            window.location.href = "/visualize";
-          } else {
-            // Handle error
-            console.log(data.error);
-          }
+            console.log(data.message); // Logging the server response message
+    
+            // Conditional redirection based on the response from the server
+            if (data.success) {
+                window.location.href = "/visualize";
+            } else {
+                console.error('Error processing video:', data.error);
+                window.location.href = "/record-video"; // Redirect back to recording if error
+            }
         })
         .catch(error => {
-          console.error(error);
-          document.getElementById('loadingIndicator').style.display = 'none';
+            console.error('Fetch error:', error);
+            window.location.href = "/record-video"; // Redirect on fetch error
         });
-      };
+    };
 
       retakeButton.onclick = function(){
         URL.revokeObjectURL(videoUrl); // Clean up the URL object

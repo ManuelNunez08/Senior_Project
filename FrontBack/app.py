@@ -28,6 +28,9 @@ READ_INPUT_PATH = os.path.join(script_dir, '../User/ReadInput.py')
 
 VIDEO_FILE = os.path.join(VIDEO_FOLDER, 'video.mp4')
 
+# Global variable to hold the status of video processing
+processing_status = 'idle'
+
 
 # Create a directory for saved-videos if it doesn't exist
 if not os.path.exists(VIDEO_FOLDER):
@@ -57,11 +60,14 @@ def record_video():
 
 @app.route('/upload-video', methods=['POST'])
 def upload_video():
+    global processing_status
     if 'video' not in request.files:
         return jsonify({'error': 'No video file'}), 400
     video = request.files['video']
     if video.filename == '':
         return jsonify({'error': 'No selected file'}), 400
+
+    processing_status = 'processing'  # Set status to 'processing'
 
     # Define a secure filename
     filename = secure_filename(video.filename)
@@ -89,15 +95,20 @@ def upload_video():
         except subprocess.CalledProcessError as e:
             print(f"An error occurred: {e}")
 
-    
+        processing_status = 'completed'
         return jsonify({"success": True})
     
     except Exception as e:
+        processing_status = 'error'
         return jsonify({"success": False, "error": str(e)})
     
 
 
-
+@app.route('/status')
+def status():
+    global processing_status
+    # Return the current status of the video processing
+    return jsonify({'status': processing_status})
 
 
     
@@ -199,6 +210,11 @@ def visualize():
 def serve_video(filename):
     video_directory = os.path.join(app.root_path, VIDEO_FOLDER)
     return send_from_directory(video_directory, filename)
+
+@app.route('/loading')
+def loading():
+    return render_template('loading.html')
+
 
 
 
