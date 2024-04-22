@@ -277,6 +277,19 @@ complex_emotions_combined_contexts = {
                         'Excitement': max((audio_dict['Happy'] + visual_dict['Surprise'])/2,  (audio_dict['Surprise'] + visual_dict['Happy'])/2)
                         }
 
+def normalize_dict(dict):
+    # Calculate the sum of all values
+    total = sum(dict.values())
+
+    # Normalize the values so they sum to 1
+    normalized_dict = {k: v / total for k, v in dict.items()}
+    return normalized_dict
+
+
+visual_complex_emotions = normalize_dict(visual_complex_emotions)
+audio_complex_emotions = normalize_dict(audio_complex_emotions)
+complex_emotions_combined_contexts = normalize_dict(complex_emotions_combined_contexts)
+
 
 results_dict['Visual_Predictions'] = visual_dict
 results_dict['Audio_Predictions'] = audio_dict

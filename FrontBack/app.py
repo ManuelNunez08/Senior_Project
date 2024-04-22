@@ -100,13 +100,13 @@ def home():
     for key in ['Visual_Predictions', 'Audio_Predictions']:
         fig = go.Figure([go.Bar(x=list(data_dict[key].keys()), y=list(data_dict[key].values()), marker_color=color_palette)])
         fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5)
-        plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False)
+        plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False, config={'staticPlot': True})
 
     # Pie charts for the complex emotions
     for key in ['Visual_Complex', 'Audio_Complex', 'Combined_Complex']:
         fig = go.Figure([go.Pie(labels=list(data_dict[key].keys()), values=list(data_dict[key].values()))])
         fig.update_layout(title_text=key.replace('_', ' '), title_x=0.5, legend=dict(x=0))
-        plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False)
+        plots_div[key] = pio.to_html(fig, full_html=False, include_plotlyjs=False, config={'staticPlot': True})
 
     # Render the homepage with the plots
     return render_template('home.html', plots=plots_div)
@@ -146,9 +146,11 @@ def visualize():
         )
     fig_pie.update_layout(height=400, width=800, title_text="Pie Chart Visualizations")
 
+
+
     # Convert both subplot figures to HTML
-    plot_html_bar = pio.to_html(fig_bar, full_html=False, include_plotlyjs='cdn')
-    plot_html_pie = pio.to_html(fig_pie, full_html=False, include_plotlyjs=False) 
+    plot_html_bar = pio.to_html(fig_bar, full_html=False, include_plotlyjs='cdn', config={'staticPlot': True})
+    plot_html_pie = pio.to_html(fig_pie, full_html=False, include_plotlyjs=False, config={'staticPlot': True}) 
 
     # obtain f strings for bar charts and complex emotions. 
     visual_message = get_interpretation(data_dict['Visual_Predictions'], 'visual context')
