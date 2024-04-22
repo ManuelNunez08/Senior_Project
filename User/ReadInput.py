@@ -218,7 +218,7 @@ def normalize_list(values):
 # We now load the audio model
 
 
-audio_path = os.path.join(script_dir, 'split_input/audio.wav')
+audio_path = os.path.join(script_dir, '../FrontBack/split_input/audio.wav')
 audio_predictions = full_pipeline(audio_path)
 audio_predictions = audio_predictions.tolist()[0]
 
