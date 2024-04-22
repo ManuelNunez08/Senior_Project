@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, render_template_string
+from flask import Flask, request, jsonify, render_template, render_template_string, send_from_directory
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import os
@@ -167,6 +167,10 @@ def visualize():
                             mixed_complex_message=mixed_complex_message
                             )
 
+@app.route('/saved-videos/<filename>')
+def serve_video(filename):
+    video_directory = os.path.join(app.root_path, VIDEO_FOLDER)
+    return send_from_directory(video_directory, filename)
 
 
 if __name__ == '__main__':
