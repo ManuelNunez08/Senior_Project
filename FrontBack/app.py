@@ -135,6 +135,8 @@ def home():
 
 @app.route('/visualize')
 def visualize():
+    global processing_status
+    processing_status = 'idle'
     # Open and read the JSON file
     with open(RESULTS_PATH) as file:
         data_dict = json.load(file)
