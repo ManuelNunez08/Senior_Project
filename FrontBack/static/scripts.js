@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
   const cameraButton = document.getElementById('cameraButton');
   const retakeButton = document.getElementById('retakeButton');
@@ -5,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const videoPreview = document.getElementById('videoPreview');
   const videoPlayback = document.getElementById('videoPlayback');
   const recordingProgress = document.getElementById('recordingProgress');
+  const recordDescription = document.getElementById('recordDescription');
 
   var socket = io.connect('http://localhost:5000');
 
@@ -76,12 +80,22 @@ document.addEventListener('DOMContentLoaded', function() {
       retakeButton.style.display = 'block'; // Show the retake video button
       cameraButton.style.display = 'none';
 
+
       sendButton.onclick = function() {
+        videoPlayback.style.display = 'none';
+        videoPreview.style.display = 'none';
+        sendButton.style.display = 'none';
+        retakeButton.style.display = 'none';
+        cameraButton.style.display = 'none';
+        recordDescription.style.display = 'none';
+        
+
+
         const formData = new FormData();
         formData.append('video', videoBlob, 'video.mp4');
 
         // Display the loading indicator
-        document.getElementById('loadingIndicator').style.display = 'block';
+        document.getElementById("loadingScreen").style.display = "block";
         
         fetch('/upload-video', {
           method: 'POST',
@@ -91,11 +105,13 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
           console.log(data.message);
           URL.revokeObjectURL(videoUrl); // Clean up the URL object
-          videoPlayback.style.display = 'none';
-          videoPreview.style.display = 'none';
-          sendButton.style.display = 'none';
-          retakeButton.style.display = 'none';
-          cameraButton.style.display = 'none';
+
+          if(data.success) {
+            window.location.href = "/visualize";
+          } else {
+            // Handle error
+            console.log(data.error);
+          }
         })
         .catch(error => {
           console.error(error);

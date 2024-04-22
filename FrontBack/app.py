@@ -11,6 +11,7 @@ import subprocess
 import sys
 import threading
 from interpretEmotions import get_interpretation
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -36,23 +37,23 @@ if not os.path.exists(VIDEO_FOLDER):
 def record_video():
     return render_template('index.html')
 
-def process_video(filename, output_path):
-    command = [
-        'ffmpeg', '-y',
-        '-i', VIDEO_FILE,
-        '-r', '30',
-        '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-        '-c:a', 'aac', '-b:a', '192k',
-        output_path
-    ]
-    try:
-        subprocess.run(command, check=True)
-        print("Conversion successful")
-        # After conversion, run the ReadInput.py script
-        subprocess.run([sys.executable, READ_INPUT_PATH], check=True)
-        print("Processing successful")
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred: {e}")
+# def process_video(filename, output_path):
+#     command = [
+#         'ffmpeg', '-y',
+#         '-i', VIDEO_FILE,
+#         '-r', '30',
+#         '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+#         '-c:a', 'aac', '-b:a', '192k',
+#         output_path
+#     ]
+#     try:
+#         subprocess.run(command, check=True)
+#         print("Conversion successful")
+#         # After conversion, run the ReadInput.py script
+#         subprocess.run([sys.executable, READ_INPUT_PATH], check=True)
+#         print("Processing successful")
+#     except subprocess.CalledProcessError as e:
+#         print(f"An error occurred: {e}")
 
 @app.route('/upload-video', methods=['POST'])
 def upload_video():
@@ -70,11 +71,36 @@ def upload_video():
     # Convert the video to a compatible format
     output_path = os.path.join(VIDEO_FOLDER, 'converted_video.mp4')
 
-    # Start the video processing in a new thread
-    thread = threading.Thread(target=process_video, args=(filename, output_path))
-    thread.start()
+    command = [
+        'ffmpeg', '-y',
+        '-i', VIDEO_FILE,
+        '-r', '30',
+        '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+        '-c:a', 'aac', '-b:a', '192k',
+        output_path
+    ]
+    try: 
+        try:
+            subprocess.run(command, check=True)
+            print("Conversion successful")
+            # After conversion, run the ReadInput.py script
+            subprocess.run([sys.executable, READ_INPUT_PATH], check=True)
+            print("Processing successful")
+        except subprocess.CalledProcessError as e:
+            print(f"An error occurred: {e}")
+
     
-    return jsonify({'message': 'Video received and saved'}), 200
+        return jsonify({"success": True})
+    
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+    
+
+
+
+
+
+    
 
 @app.route('/processing-complete', methods=['POST'])
 def processing_complete():
@@ -173,6 +199,19 @@ def visualize():
 def serve_video(filename):
     video_directory = os.path.join(app.root_path, VIDEO_FOLDER)
     return send_from_directory(video_directory, filename)
+
+
+
+# @app.route('/start-recording', methods=['POST'])
+# def start_recording():
+#     try:
+#         # Placeholder for your Python code that records video and processes files
+#         # Simulating a delay for demonstration purposes
+#         # Simulate time taken to record and process the video
+        
+#         return jsonify({"success": True})
+#     except Exception as e:
+#         return jsonify({"success": False, "error": str(e)})
 
 
 if __name__ == '__main__':
