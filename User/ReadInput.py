@@ -7,6 +7,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import librosa
+import shutil
 
 # to load audio model 
 import torch
@@ -89,6 +90,22 @@ script_dir = os.path.dirname(__file__)
 # We first read in the input and split it into two contexts. The data, now ready for classification, is situated in the split_input folder
 video_path = os.path.join(script_dir, '../FrontBack/saved-videos/converted_video.mp4')
 output_dir = os.path.join(script_dir, '../FrontBack/split_input')
+
+# Ensure output_dir is empty before starting extraction
+if os.path.exists(output_dir):
+    for filename in os.listdir(output_dir):
+        file_path = os.path.join(output_dir, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f'Failed to delete {file_path}. Reason: {e}')
+else:
+    os.makedirs(output_dir)
+
+
 extract_faces_and_audio(video_path, output_dir)
 
 
