@@ -4,5 +4,10 @@
 /myenv/
 /Models/Visual_Model/data_csv/
 /Models/Visual_Model/data_jpg/
+<<<<<<< HEAD
 /Models/Visual_Model/fer.csv
 /Visual_Model
+=======
+/Visual_Model
+/User/models/
+>>>>>>> 9a215d05e55ba9e35a0bcd1c93207135d919e62d

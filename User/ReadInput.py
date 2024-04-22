@@ -304,7 +304,7 @@ json_path = 'results.json'
 
 # Writing the JSON data to a file
 with open(json_path, 'w') as json_file:
-    json.dump(results_dict, json_file, indent=4)  
+    json.dump(results_dict, json_file, indent=4)
 
 
 def notify_processing_complete(process_data):
