@@ -88,7 +88,7 @@ script_dir = os.path.dirname(__file__)
 
 # We first read in the input and split it into two contexts. The data, now ready for classification, is situated in the split_input folder
 video_path = os.path.join(script_dir, '../FrontBack/saved-videos/converted_video.mp4')
-output_dir = 'split_input'
+output_dir = os.path.join(script_dir, '../FrontBack/split_input')
 extract_faces_and_audio(video_path, output_dir)
 
 
@@ -106,7 +106,7 @@ visual_model_path = os.path.join(script_dir, 'models/mesamodel.keras')
 visual_model = tf.keras.models.load_model(visual_model_path)
 # the visual model evaluates each screenshot below
 visual_predictions = []
-path_to_images = 'split_input'
+path_to_images = os.path.join(script_dir, '../FrontBack/split_input')
 
 # Initialize a list to store the sum of predictions for each class
 sum_predictions = None
@@ -128,7 +128,8 @@ for file_name in os.listdir(path_to_images):
 # Calculate the average predictions for each class
 visual_predictions = sum_predictions / num_images if num_images else []
 # If you need the result as a regular Python list
-visual_predictions = visual_predictions.tolist()[0] 
+print("visual_predictions: ", visual_predictions)
+#visual_predictions = visual_predictions.to_list()[0] 
 
 
 
