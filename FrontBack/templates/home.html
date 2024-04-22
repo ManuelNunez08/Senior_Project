@@ -54,58 +54,77 @@
         <section id="example-demo" class="section">
             <div class="container">
                 <h2>Example Demo</h2>
-                </h3>Consider the video below, where a sample user records themselves acting very angrily.</h3>
+                <h3>Consider the video below, where a sample user records themselves acting very angrily.</h3>
                 <video controls class="video-size" width="320" height="auto">
                     <source src="../static/home_page/Example_input.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
+        
+
+            <div class="container">
+                <div class="context-columns">
+                    <div class="visual-context">
+                        <h3>The visual context is interpreted through the following screenshots taken of the user's face:</h3>
+                    </div>
+                    <div class="audio-context">
+                        <h3>The audio context of the model is interpreted through the following wav file:</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="context-columns">
+                    <div class="visual-context">
+                        <img src="../static/home_page/screenshots/face_1.jpg" alt="Screenshot 1" class="screenshot">
+                        <img src="../static/home_page/screenshots/face_2.jpg" alt="Screenshot 2" class="screenshot">
+                        <img src="../static/home_page/screenshots/face_3.jpg" alt="Screenshot 3" class="screenshot">
+                    </div>
+                    <div class="audio-context">
+                        <audio controls>
+                            <source src="../static/home_page/audio.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+
+            <h3>A break down of the emotions detected through both a visual and auditory context are provided by the bar charts
+                below.</h3>
+
+            <div class="container">
+                <div class="context-columns">
+                    <div class="visual-context">
+                        {{ plots['Visual_Predictions']|safe }}
+                    </div>
+                    <div class="audio-context">
+                        {{ plots['Audio_Predictions']|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <h3>We then consider complex emotions strictly formed through a combination of expressions in each context.</h3>
+
+            <div class="container">
+                <div class="context-columns">
+                    <div class="visual-context">
+                        {{ plots['Visual_Complex']|safe }}
+                    </div>
+                    <div class="audio-context">
+                        {{ plots['Audio_Complex']|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <h3>Lastly, we combine the auditory and visual contexts of emotional expression to detect the most predominant complex
+                emotions.</h3>
+            <div class="container">
+                <div class="combined-complex">
+                    {{ plots['Combined_Complex']|safe }}
+                </div>
+            </div>
+
         </section>
-
-        <div class="container">
-            <div class="context-columns">
-                <div class="visual-context">
-                    <h3>The visual context is interpreted through the following screenshots taken of the user's face:</h3>
-                    <img src="../static/home_page/screenshots/face_1.jpg" alt="Screenshot 1" class="screenshot">
-                    <img src="../static/home_page/screenshots/face_2.jpg" alt="Screenshot 2" class="screenshot">
-                    <img src="../static/home_page/screenshots/face_3.jpg" alt="Screenshot 3" class="screenshot">
-                </div>
-                <div class="audio-context">
-                    <h3>The audio context of the model is interpreted through the following wav file:</h3>
-                    <audio controls>
-                        <source src="../static/home_page/audio.wav" type="audio/wav">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-            </div>
-            <p>A break down of the emotions detected through both a visual and auditory context are provided by the bar charts below.</p>
-            <div class="context-columns">
-                <div class="visual-context">
-                    {{ plots['Visual_Predictions']|safe }}
-                </div>
-                <div class="audio-context">
-                    {{ plots['Audio_Predictions']|safe }}
-                </div>
-            </div>
-
-            <p>We then consider complex emotions strictly formed through a combination of expressions in each context.</p>
-            <div class="context-columns">
-                <div class="visual-context">
-                    {{ plots['Visual_Complex']|safe }}
-                </div>
-                <div class="audio-context">
-                    {{ plots['Audio_Complex']|safe }}
-                </div>
-            </div>
-        </div>
-
-        <div class="combined-complex">
-            <h3>Combined Complex Emotions</h3>
-            <p>Lastly, we combine the auditory and visual contexts of emotional expression to detect the most predominant complex emotions.</p>
-            <div class="combined-context">
-                {{ plots['Combined_Complex']|safe }}
-            </div>
-        </div>
 
 
         <section id="about-plutchiks-wheel" class="section bg-light">
@@ -114,7 +133,7 @@
                 <div class="flex-container">
                     <img src="../static/home_page/plutchiks_wheel.png" alt="Plutchik's Wheel of Emotions"
                         class="plutchiks-wheel-image">
-                    <p style="font-size: 20pt;">Plutchik's Wheel of Emotions is a comprehensive model that illustrates the relationships among the
+                    <p style="font-size: 15pt;">Plutchik's Wheel of Emotions is a comprehensive model that illustrates the relationships among the
                         primary emotions and how they combine to form complex emotions. The wheel features eight basic emotions:
                         joy, trust, fear, surprise, sadness, anticipation, anger, and disgust. These primary emotions act as the
                         foundation for more nuanced and complex emotional states by combining in various ways. For example,
@@ -128,23 +147,34 @@
         <section id="applications" class="section">
             <div class="container">
                 <h2>Applications of Emotion Detection</h2>
-                <div class="applications-list">
-                    <h3>Mental Health Monitoring and Support</h3>
-                    <p>Deep learning aids in early warnings of emotional distress by analyzing interactions, offering
-                        personalized therapy recommendations, and continuous support for individuals with mental health
-                        conditions.</p>
+                <ul class="applications-list">
+                    <li>
+                        <h3 style="font-size: 15pt;">Mental Health Monitoring and Support</h3>
+                        <p style="font-size: 15pt;">Using advanced algorithms, emotion detection technology can monitor subtle changes in behavior and
+                            vocal patterns to provide early indicators of mental health issues. This capability can enhance
+                            remote therapy sessions, giving therapists insights into a patient's well-being between appointments
+                            and enabling prompt and personalized support.</p>
+                    </li>
         
-                    <h3>Enhanced Customer Service</h3>
-                    <p>In customer service, emotion detection helps adjust representative approaches in real-time, improving
-                        satisfaction. For chatbots, it enables empathetic responses, making interactions feel more human.</p>
+                    <li>
+                        <h3 style="font-size: 15pt;">Enhanced Customer Service</h3>
+                        <p style="font-size: 15pt;"> Emotion detection systems can analyze customer voice inflections and facial expressions during
+                            service calls or in virtual chats. This information empowers customer service representatives to
+                            adapt their strategies in real time, leading to improved customer experiences, quicker resolution of
+                            issues, and higher rates of satisfaction and brand loyalty.</p>
+                    </li>
         
-                    <h3>Educational Tools and E-Learning</h3>
-                    <p>Emotion detection transforms e-learning by adjusting content based on the learner's emotional state,
-                        maintaining engagement and facilitating better learning outcomes through interactive and tailored
-                        content.</p>
-                </div>
+                    <li>
+                        <h3 style="font-size: 15pt;">Educational Tools and E-Learning</h3>
+                        <p style="font-size: 15pt;">Educational software equipped with emotion detection can personalize learning by adapting to the
+                            student's mood. If a student appears frustrated, the system might offer hints or adjust the
+                            difficulty. Conversely, if the student seems bored, the system could present more challenging
+                            material or gamify the learning experience to re-engage them.</p>
+                    </li>
+                </ul>
             </div>
         </section>
+
 
 
     </main>

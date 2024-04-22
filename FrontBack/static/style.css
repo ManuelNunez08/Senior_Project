@@ -100,6 +100,7 @@ progress[value]::-webkit-progress-bar {
 
   .section {
     padding: 40px 0;
+    text-align: center;
   }
 
   .bg-light {
@@ -210,7 +211,7 @@ progress[value]::-webkit-progress-bar {
   .visual-context,
   .audio-context {
     margin-bottom: 20px;
-    align-items: center;
+    align-items: left;
   }
 
   .charts-container {
@@ -228,6 +229,7 @@ progress[value]::-webkit-progress-bar {
   /* Center items vertically (if the container has a fixed height) */
   text-align: center;
   /* Center-align the text */
+  padding: 20px;
 }
 
 .context-columns {
@@ -240,6 +242,7 @@ progress[value]::-webkit-progress-bar {
   justify-content: space-between;
   /* Keep existing spacing */
   gap: 20px;
+  
   /* Optional: adds space between columns */
 }
 
@@ -327,6 +330,6 @@ progress[value]::-webkit-progress-bar {
   overflow: hidden;
 }
 
-.clickable-header{
-  cursor: pointer;
+.applications-list {
+  text-align: left;
 }
