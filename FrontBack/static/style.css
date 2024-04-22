@@ -289,7 +289,6 @@ p,
 .visual-context,
 .audio-context {
   flex: 1;
-  display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
@@ -314,6 +313,8 @@ p,
   /* Maintain aspect ratio */
   max-height: 100px;
   /* Optional: limit the height of the screenshots */
+  display: inline-block;
+  vertical-align: top; 
 }
 
 .combined-complex {
