@@ -19,15 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const recordingProgress = document.getElementById('recordingProgress');
   const recordDescription = document.getElementById('recordDescription');
 
-  var socket = io.connect('http://localhost:5000');
-
-  socket.on('processing_done', function(data) {
-    console.log(data.message);  // Log the message
-    // Hide the loading indicator and show the results button
-    document.getElementById('loadingIndicator').style.display = 'none';
-    document.getElementById('showResultsButton').style.display = 'block';
-  });
-
   const videoFormats = [
     'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', // MP4 with H.264/AAC
     'video/webm; codecs="vp9,opus"', // WebM with VP9/Opus

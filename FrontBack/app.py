@@ -14,8 +14,6 @@ from interpretEmotions import get_interpretation
 import time
 
 app = Flask(__name__)
-CORS(app)
-socketio = SocketIO(app, cors_allowed_origins='*')
 
 VIDEO_FOLDER = 'saved-videos'
 
@@ -100,7 +98,6 @@ def status():
 def processing_complete():
     data = request.json
     print("Processing complete with data:", data)
-    socketio.emit('processing_done', {'message': 'Processing complete'})
     return jsonify({'status': 'success', 'message': 'Notified frontend'}), 200
 
 @app.route('/home')
@@ -218,4 +215,4 @@ def loading():
 
 
 if __name__ == '__main__':
-    socketio.run(app, allow_unsafe_werkzeug=True)
+    app.run(debug=True)
