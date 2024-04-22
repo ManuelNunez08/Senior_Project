@@ -318,7 +318,7 @@ results_dict ['Combined_Complex'] = complex_emotions_combined_contexts
 
 
 # write out json file 
-json_path = 'results.json'
+json_path = os.path.join(script_dir, '../FrontBack/results.json')
 
 # Writing the JSON data to a file
 with open(json_path, 'w') as json_file:
