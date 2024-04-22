@@ -83,10 +83,11 @@ def extract_faces_and_audio(video_path, output_dir):
     cap.release()
 
 
-
+# Get the directory where the script is located
+script_dir = os.path.dirname(__file__)
 
 # We first read in the input and split it into two contexts. The data, now ready for classification, is situated in the split_input folder
-video_path = '../FrontBack/saved-videos/converted_video.mp4'
+video_path = os.path.join(script_dir, '../FrontBack/saved-videos/converted_video.mp4')
 output_dir = 'split_input'
 extract_faces_and_audio(video_path, output_dir)
 
